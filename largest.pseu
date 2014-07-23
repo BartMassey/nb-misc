@@ -1,0 +1,6 @@
+%ident S m e
+let m be any arbitrary element of S
+for each e in S
+  if e > m
+    m <- e
+return m

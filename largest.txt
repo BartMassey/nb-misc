@@ -1,0 +1,6 @@
+partition S as S′ ∪ {s}
+m ← s
+for each e in S′
+    if e > m
+        m ← e
+return m
