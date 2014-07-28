@@ -15,7 +15,8 @@ class DieRoller(Frame):
         self.roll.grid(row = 1, column = 0, sticky = E + W)
         
     def do_roll(self):
-        pass
+        roll = randrange(6) + 1
+        self.display.configure(text = str(roll))
 
 # Seed the PRNG.
 seed()
