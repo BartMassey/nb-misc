@@ -3,7 +3,6 @@
 
 from random import *
 from tkinter import *
-from tkinter.font import Font
 
 class DieRoller(Frame):
 
@@ -12,8 +11,7 @@ class DieRoller(Frame):
 
         # Set up widgets.
         self.grid()
-        dieFont = Font(size=20)
-        self.display = Label(self, width = 1, font = dieFont)
+        self.display = Label(self, width = 0)
         self.display.grid(row = 0, column = 0, sticky = E + W)
         self.roll = Button(self, text = "Roll", command = self.do_roll)
         self.roll.grid(row = 1, column = 0, sticky = E + W)
