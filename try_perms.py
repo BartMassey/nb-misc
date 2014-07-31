@@ -12,3 +12,17 @@ def try_perms(source_set, eval_function):
                           partial_permutation + [e])
 
     complete_perm(source_set, [])
+
+class Found(Exception):
+
+    def __init__(self, result):
+        self.result = result
+
+def check_first_zero(p):
+    if p[0] == 0:
+        raise Found(p)
+
+try:
+    try_perms(set(range(50)), check_first_zero)
+except Found as e:
+    print(e.result)
