@@ -16,7 +16,7 @@ def randrange(p1, p2=None):
         upper = p2
     
     # Compute the result by normalizing bounds.
-    r = s % (upper - lower) + lower
+    r = (s % (upper - lower)) + lower
 
     # Update the seed.
     s = (s * 55) % 251
