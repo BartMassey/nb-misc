@@ -16,8 +16,7 @@ def right(i):
     return 2 * i + 2
 
 def parent(i):
-    # XXX (i - 1) // 2 doesn't work, because i = 0
-    return (i + 1) // 2 - 1
+    return (i - 1) // 2
 
 def checkheap(a, na, i):
     if i < na // 2 - 1:
