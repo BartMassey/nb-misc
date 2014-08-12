@@ -82,6 +82,20 @@ class Heap(object):
         # Reinstate the heap property.
         self.upheap(self.n - 1)
 
+def heapsort(a):
+    # Set up a heap.
+    h = Heap(0)
+    h.n = 0
+    h.a = a
+    # Insertion phase.
+    for i in range(len(a)):
+        v = a[i]
+        h.insert(v)
+    # Deletion phase.
+    for i in range(len(a)-1, -1, -1):
+        v = h.extract_max()
+        a[i] = v
+
 if __name__ == "__main__":
     from random import randrange
 
@@ -94,7 +108,6 @@ if __name__ == "__main__":
         r += [h.extract_max()]
     assert r == [7, 5, 4, 3, 2, 1, 0]
 
-    print("Random insert/extract-max test.")
     def insert_test():
         h = Heap(100)
         a = []
@@ -108,7 +121,23 @@ if __name__ == "__main__":
             l2 = [h.extract_max()] + l2
         assert l1 == l2
 
+    print("Random insert/extract-max test.")
     for _ in range(100):
         insert_test()
         print(".", end="")
     print()
+
+    def sort_test():
+        a = []
+        for _ in range(randrange(100)):
+            a += [randrange(100)]
+        b = sorted(a)
+        heapsort(a)
+        assert a == b
+
+    print("Heapsort test.")
+    for _ in range(100):
+        sort_test()
+        print(".", end="")
+    print()
+
