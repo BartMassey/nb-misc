@@ -7,16 +7,14 @@ def indexica(start, end, increment):
         tmp = start
         start = end + increment
         end = tmp + increment
-    result = []
     i = start
     while i != end:
-        result += [i]
+        yield i
         i += increment
-    return result
-    
 
-print(indexica(3, 10, 1))
-print(indexica(3, 10, -1))
+if __name__ == "__main__":
+    print(list(indexica(3, 10, 1)))
+    print(list(indexica(3, 10, -1)))
 
-for i in indexica(0, 1000000, 1):
-    print(i)
+    for i in indexica(0, 100, 1):
+        print(i)

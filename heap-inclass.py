@@ -61,8 +61,31 @@ class Heap(object):
         # Return the extracted value.
         return m
 
+    def upheap(self, i):
+        # If we're at the root, stop.
+        if i == 0:
+            return
+        p = parent(i)
+        # Heap invariant reinstated, so quit.
+        if self.a[p] > self.a[i]:
+            return
+        # Fix the parent.
+        exchange(self.a, i, p)
+        self.upheap(p)
+
+    def insert(self, value):
+        assert self.n < len(self.a)
+        # Store the value.
+        self.a[self.n] = value
+        # Mark it as used.
+        self.n += 1
+        # Reinstate the heap property.
+        self.upheap(self.n - 1)
+
 if __name__ == "__main__":
-    # Hardwired extract_max test.
+    from random import randrange
+
+    print("Hardwired extract_max test.")
     h = Heap(0)
     h.n = 7
     h.a = [7, 3, 5, 0, 2, 4, 1]
@@ -70,3 +93,22 @@ if __name__ == "__main__":
     for _ in range(h.n):
         r += [h.extract_max()]
     assert r == [7, 5, 4, 3, 2, 1, 0]
+
+    print("Random insert/extract-max test.")
+    def insert_test():
+        h = Heap(100)
+        a = []
+        for _ in range(randrange(100)):
+            a += [randrange(100)]
+        for v in a:
+            h.insert(v)
+        l1 = sorted(a)
+        l2 = []
+        for _ in range(len(a)):
+            l2 = [h.extract_max()] + l2
+        assert l1 == l2
+
+    for _ in range(100):
+        insert_test()
+        print(".", end="")
+    print()
