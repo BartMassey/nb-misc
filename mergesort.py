@@ -53,11 +53,16 @@ if __name__ == "__main__":
     for i in range(8):
         n = 10**i
         a = random_list(n, n)
-        sa = sorted(a)
         print("testing 10**" + str(i))
+
+        start_time = time()
+        sa = sorted(a)
+        pythonsort_elapsed_time = time() - start_time
+
         start_time = time()
         msa = mergesort(a)
-        elapsed = time() - start_time
+        mergesort_elapsed_time = time() - start_time
+
         print("tested")
         assert msa == sa
-        print("10**" + str(i), elapsed)
+        print("10**" + str(i), pythonsort_elapsed_time, mergesort_elapsed_time)
