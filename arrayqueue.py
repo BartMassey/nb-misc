@@ -65,10 +65,9 @@ if __name__ == "__main__":
 
     def test():
         q = Queue(100)
-        n = randrange(100) + 1
         v = 1
         w = 1
-        for _ in range(n):
+        for _ in range(randrange(100) + 1):
             q.enqueue(v)
             v += 1
         while True:
