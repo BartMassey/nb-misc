@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Check that Pr(E|H) = 1/6 where:
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 # E is the event of rolling a four on two dice.
 # H is the event of having one of the dice a four.
 

@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Function: return the list of permutations of a set
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 # Strategy:
 # To find the permutations of s:

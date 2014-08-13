@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Function to exchange elements in an array.
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 # Exchange elements i and j of array a.
 def exchange(a, i, j):

@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Give a list of all sets of k items drawn from a set of n items
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 def combs(s, k):
     n = len(s)

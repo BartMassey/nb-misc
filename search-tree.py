@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Balanced Search Tree
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 class SearchTree(object):
     def __init__(self, label, left, right):

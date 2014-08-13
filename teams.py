@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Randomly partition people into teams.
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 # Given a team size n and a number m of team members,
 # print out the teams one per line. If m is

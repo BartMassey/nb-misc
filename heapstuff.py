@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # heap sort, from CLR pp. 142-
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 # zero-based indexing, top is min
 
 from random import randrange

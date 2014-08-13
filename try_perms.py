@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Generate all permutations and try something with each
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 def try_perms(source_set, eval_function):
 

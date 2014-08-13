@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Very partial replacement for Python random module
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 # PRNG seed.
 s = 12

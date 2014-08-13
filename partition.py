@@ -1,5 +1,8 @@
-# Copyright © 2014 Bart Massey
 # Partition an array around a pivot.
+# Copyright © 2014 Bart Massey
+# [This program is licensed under the "MIT License"]
+# Please see the file COPYING in the source
+# distribution of this software for license terms.
 
 # Rearrange a such that all elements less than k precede all
 # elements >= k. Return the index just after the last
