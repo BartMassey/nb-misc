@@ -21,6 +21,7 @@ class Stack(object):
         v = self.top.v
         self.top = self.top.rest
         self.n -= 1
+        return v
 
     def size(self):
         return self.n
@@ -42,7 +43,7 @@ if __name__ == "__main__":
         for j in range(i):
             s.push(a[j])
         while i > 0:
-            if i < n and randrange(2) == 1:
+            if s.size() < n - 1 and randrange(2) == 1:
                 s.push(a[i])
                 i += 1
                 assert s.size() == i
@@ -54,5 +55,7 @@ if __name__ == "__main__":
                 assert s.size() == i
         assert s.is_empty()
 
-    for _ in range(10):
+    for _ in range(100):
         test()
+        print(".", end="")
+    print()
