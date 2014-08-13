@@ -6,14 +6,13 @@
 
 def merge(l1, l2):
     r = []
-    while len(l1) > 0 and len(l2) > 0:
-      if l1[0] <= l2[0]:
-        r += [l1[0]]
-        l1 = l1[1:]
-      else:
-        r += [l2[0]]
-        l2 = l2[1:]
-    return r + l1 + l2
+    while l1 != [] and l2 != []:
+        if l1[-1] >= l2[-1]:
+            v = l1.pop()
+        else:
+            v = l2.pop()
+        r.append(v)
+    return l1 + l2 + list(reversed(r))
 
 def mergesort(l):
     if len(l) < 2:
@@ -56,9 +55,9 @@ if __name__ == "__main__":
         a = random_list(n, n)
         sa = sorted(a)
         print("testing 10**" + str(i))
-        now = time()
+        start_time = time()
         msa = mergesort(a)
-        elapsed = (time() - now) / 1000000
+        elapsed = time() - start_time
         print("tested")
         assert msa == sa
         print("10**" + str(i), elapsed)
