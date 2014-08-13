@@ -1,19 +1,20 @@
 # Copyright © 2014 Bart Massey
 # Stack class implemented list-style.
 
-class StackElement(object):
-    def __init__(self, v, rest):
-        self.v = v
-        self.rest = rest
-
 class Stack(object):
+
+    class StackElement(object):
+        def __init__(self, v, rest):
+            self.v = v
+            self.rest = rest
+
     def __init__(self):
         self.n = 0
         self.top = None
 
     def push(self, v):
         old_top = self.top
-        self.top = StackElement(v, old_top)
+        self.top = self.StackElement(v, old_top)
         self.n += 1
 
     def pop(self):
