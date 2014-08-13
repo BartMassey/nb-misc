@@ -10,12 +10,13 @@
 # evenly to other teams.
 
 from random import randrange
-
-# Team size
-n = int(input("Team size? "))
+from sys import argv
 
 # Number of participants
-m = int(input("Number of participants? "))
+m = int(argv[1])
+
+# Team size
+n = int(argv[2])
 
 # Given a list of participants, return
 # teams as a list of lists of participants.
@@ -47,6 +48,14 @@ def make_teams(participants):
 
     return teams
             
+def print_team(team, **kwargs):
+    first = True
+    for p in team:
+        print(" " + str(p), end='')
+        if first:
+            print("*", end='')
+            first = False
+    print(**kwargs)
     
 # Produce the teams.
 teams = make_teams(list(range(1, m + 1)))
@@ -56,14 +65,15 @@ print("Teams")
 participant_index = [0] * m
 for i in range(len(teams)):
     print(str(i + 1) + ":", end='')
+    print_team(teams[i])
     for p in teams[i]:
-        print(" " + str(p), end='')
-        participant_index[p - 1] = i + 1
-    print()
+        participant_index[p - 1] = i
 
 print()
 
 # Print the participant index.
 print("Participants")
 for i in range(m):
-    print(str(i + 1) + ": ", participant_index[i])
+    print(str(i + 1) + ": ", participant_index[i] + 1, "[", end="")
+    print_team(teams[participant_index[i]], end="")
+    print(" ]")
