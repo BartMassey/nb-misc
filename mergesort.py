@@ -19,7 +19,7 @@ def mergesort(l):
     if len(l) < 2:
         return l
     j = len(l) // 2
-    l1 = mergesort(l[0:j])
+    l1 = mergesort(l[:j])
     l2 = mergesort(l[j:])
     return merge(l1, l2)
 
@@ -27,18 +27,24 @@ def mergesort(l):
 if __name__ == "__main__":
     from random import randrange
 
+    # Construct a random-length list of random integers.
+    def random_list(n, r):
+        a = []
+        for _ in range(randrange(n)):
+            a.append(randrange(r))
+        return a
+
     # Construct a random test list and partition value,
     # and verify that:
     # * The list is properly partitioned, with the correct index returned.
     # * The resulting array is exactly a permutation of the input.
     def test():
-        k = randrange(50)
-        a = []
-        for _ in range(randrange(20)):
-            a.append(randrange(100))
-        aa = a[:]
-        assert mergesort(a) == sorted(aa)
+        a = random_list(200, 100)
+        assert mergesort(a) == sorted(a)
 
     # Run some random tests.
-    for _ in range(10000):
+    print("running tests")
+    for _ in range(1000):
         test()
+        print(".", end="")
+    print()
