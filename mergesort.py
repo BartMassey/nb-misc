@@ -26,6 +26,7 @@ def mergesort(l):
 
 if __name__ == "__main__":
     from random import randrange
+    from time import time
 
     # Construct a random-length list of random integers.
     def random_list(n, r):
@@ -48,3 +49,16 @@ if __name__ == "__main__":
         test()
         print(".", end="")
     print()
+
+    # Do some benchmarking on largeish lists.
+    for i in range(8):
+        n = 10**i
+        a = random_list(n, n)
+        sa = sorted(a)
+        print("testing 10**" + str(i))
+        now = time()
+        msa = mergesort(a)
+        elapsed = (time() - now) / 1000000
+        print("tested")
+        assert msa == sa
+        print("10**" + str(i), elapsed)
