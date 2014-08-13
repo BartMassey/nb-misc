@@ -1,48 +1,18 @@
-# Stack class implemented list-style.
+# Stack test class.
 # Copyright © 2014 Bart Massey
 # [This program is licensed under the "MIT License"]
 # Please see the file COPYING in the source
 # distribution of this software for license terms.
 
-class Stack(object):
+from random import randrange
 
-    class StackElement(object):
-        def __init__(self, v, rest):
-            self.v = v
-            self.rest = rest
-
-    def __init__(self):
-        self.n = 0
-        self.top = None
-
-    def push(self, v):
-        old_top = self.top
-        self.top = self.StackElement(v, old_top)
-        self.n += 1
-
-    def pop(self):
-        assert self.n > 0
-        v = self.top.v
-        self.top = self.top.rest
-        self.n -= 1
-        return v
-
-    def size(self):
-        return self.n
-
-    def is_empty(self):
-        return self.size() == 0
-
-if __name__ == "__main__":
-
-    from random import randrange
-
+def stack_test(stack_constructor, *args):
     def test():
         a = []
         for _ in range(randrange(100)):
             a += [randrange(100)]
         n = len(a)
-        s = Stack()
+        s = stack_constructor(*args)
         i = n // 2
         for j in range(i):
             s.push(a[j])
