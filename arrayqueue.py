@@ -41,7 +41,9 @@ class Queue(object):
         return self.n
 
 if __name__ == "__main__":
+    from random import randrange
 
+    print("base test")
     q = Queue(3)
     assert q.is_empty()
     assert not q.is_full()
@@ -60,3 +62,29 @@ if __name__ == "__main__":
     assert q.dequeue() == 3
     assert q.dequeue() == 4
     assert q.is_empty()
+
+    def test():
+        q = Queue(100)
+        n = randrange(100) + 1
+        v = 1
+        w = 1
+        for _ in range(n):
+            q.enqueue(v)
+            v += 1
+        while True:
+            if randrange(2) == 1:
+                if q.is_full():
+                    break
+                q.enqueue(v)
+                v += 1
+            else:
+                if q.is_empty():
+                    break
+                assert q.dequeue() == w
+                w += 1
+
+    print("random tests")
+    for _ in range(100):
+        test()
+        print(".", end="")
+    print()
