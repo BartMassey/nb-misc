@@ -28,21 +28,23 @@ class SearchTree(object):
 
     def insert(self, v):
         if self.label == v:
-            return self
-        self.n_nodes += 1
+            return
         if v < self.label:
             if self.left == None:
                 t = SearchTree(v, None, None)
             else:
-                t = self.left.insert(v)
+                self.left.insert(v)
+                t = self.left.maybe_rotate_right()
             self.left = t
-            return t.maybe_rotate_right()
-        if self.right == None:
-            t = SearchTree(v, None, None)
         else:
-            t = self.right.insert(v)
-        self.right = t
-        return t.maybe_rotate_left()
+            if self.right == None:
+                t = SearchTree(v, None, None)
+            else:
+                self.right.insert(v)
+                t = self.right.maybe_rotate_left()
+            self.right = t
+        self.n_nodes = self.nodes(self.left) + self.nodes(self.right) + 1
+        return
 
     def maybe_rotate_right(self):
         if self.nodes(self.left) <= self.nodes(self.right) + 1:
@@ -112,24 +114,34 @@ if __name__ == "__main__":
 
     from random import randrange
 
-    print("building tree")
-    v = randrange(100)
-    print(v)
-    t = SearchTree(v, None, None)
-    n = randrange(15)
-    for _ in range(n):
+    def test():
+        # print("building tree")
         v = randrange(100)
-        print(v)
-        t = t.insert(v)
-    print("printing tree")
-    print("n=" + str(n + 1), "depth=" + str(t.depth()))
-    print(t.desc())
-    print("checking node counts")
-    t.check_nodes()
-    print("checking presence")
-    ls = t.labels()
-    for l in ls:
-        assert t.search(l) != None
-    print("checking absence")
-    for l in set(range(100)) - t.labels():
-        assert t.search(l) == None
+        # print(v)
+        labels = {v}
+        t = SearchTree(v, None, None)
+        n = randrange(100)
+        for _ in range(n):
+            v = randrange(100)
+            # print(v)
+            labels |= {v}
+            t.insert(v)
+        # print("printing tree")
+        # print("n=" + str(n + 1), "depth=" + str(t.depth()))
+        # print(t.desc())
+        # print("checking node counts")
+        t.check_nodes()
+        # print("checking labels")
+        assert labels == t.labels()
+        # print("checking presence")
+        for l in labels:
+            assert t.search(l) != None
+        # print("checking absence")
+        for l in set(range(100)) - t.labels():
+            assert t.search(l) == None
+        print(".", end="")
+
+    print("random tests")
+    for _ in range(100):
+        test()
+    print()
