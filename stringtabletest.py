@@ -31,5 +31,5 @@ def stringtabletest(constructor):
         print(".", end="")
 
     print("random testing")
-    for _ in range(10):
-        test(64000)
+    test(5000)
+    print()
