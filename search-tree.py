@@ -112,6 +112,7 @@ class SearchTree(object):
 
 if __name__ == "__main__":
 
+    from math import log2
     from random import randrange
 
     def test():
@@ -120,9 +121,9 @@ if __name__ == "__main__":
         # print(v)
         labels = {v}
         t = SearchTree(v, None, None)
-        n = randrange(100)
+        n = randrange(1000)
         for _ in range(n):
-            v = randrange(100)
+            v = randrange(1000)
             # print(v)
             labels |= {v}
             t.insert(v)
@@ -139,6 +140,11 @@ if __name__ == "__main__":
         # print("checking absence")
         for l in set(range(100)) - t.labels():
             assert t.search(l) == None
+        # print("checking depth")
+        depth_ok = t.depth() <= 2 * log2(t.n_nodes) + 2
+        if not depth_ok:
+            print(log2(t.n_nodes) + 2, t.depth())
+        assert depth_ok
         print(".", end="")
 
     print("random tests")
