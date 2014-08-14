@@ -30,6 +30,6 @@ def stringtabletest(constructor):
             assert t.lookup(k) == None
         print(".", end="")
 
-    print("random testing")
-    test(5000)
+    print("random test")
+    test(32000)
     print()

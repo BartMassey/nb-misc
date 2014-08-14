@@ -28,14 +28,13 @@ class SearchTree(object):
 
     def insert(self, v):
         if self.label == v:
-            return
+            return self
         if v < self.label:
             if self.left == None:
-                t = SearchTree(v, None, None)
+                self.left = SearchTree(v, None, None)
             else:
-                self.left.insert(v)
-                t = self.left.maybe_rotate_right()
-            self.left = t
+                self.left = self.left.insert(v)
+                t = self.maybe_rotate_right()
         else:
             if self.right == None:
                 t = SearchTree(v, None, None)
