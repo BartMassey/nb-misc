@@ -1,6 +1,7 @@
 # Copyright © 2014 Bart Massey
 # Hash function djb2 on strings.
 
+# http://www.cse.yorku.ca/~oz/hash.html
 def djb2(s):
     h = 5381
     for c in s:
