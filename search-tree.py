@@ -4,18 +4,24 @@
 # Please see the file COPYING in the source
 # distribution of this software for license terms.
 
+def nodes(t):
+    if t == None:
+        return 0
+    return t.n_nodes
+
+def depth(t):
+    if t == None:
+        return 0
+    return t.n_depth
+
 class SearchTree(object):
     def __init__(self, label, left, right):
         self.label = label
         self.left = left
         self.right = right
-        self.n_nodes = 1 + self.nodes(left) + self.nodes(right)
+        self.n_nodes = 1 + nodes(left) + nodes(right)
+        self.n_depth = 1 + max(depth(left), depth(right))
         
-
-    def nodes(self, t):
-        if t == None:
-            return 0
-        return t.n_nodes
 
     def search(self, v):
         if self.label == v:
@@ -34,44 +40,47 @@ class SearchTree(object):
                 self.left = SearchTree(v, None, None)
             else:
                 self.left = self.left.insert(v)
-                t = self.maybe_rotate_right()
+            t = self.maybe_rotate_right()
         else:
             if self.right == None:
-                t = SearchTree(v, None, None)
+                self.right = SearchTree(v, None, None)
             else:
-                self.right.insert(v)
-                t = self.right.maybe_rotate_left()
-            self.right = t
-        self.n_nodes = self.nodes(self.left) + self.nodes(self.right) + 1
-        return
-
-    def maybe_rotate_right(self):
-        if self.nodes(self.left) <= self.nodes(self.right) + 1:
-            return self
-        a = self
-        b = self.left
-        c = self.left.right
-        na = a.n_nodes - b.n_nodes + self.nodes(c)
-        nb = b.n_nodes - self.nodes(c) + na
-        b.right = a
-        a.left = c
-        a.n_nodes = na
-        b.n_nodes = nb
-        return b
+                self.right = self.right.insert(v)
+            t = self.maybe_rotate_left()
+        t.n_depth = t.implied_depth()
+        t.n_nodes = t.implied_nodes()
+        return t
 
     def maybe_rotate_left(self):
-        if self.nodes(self.right) <= self.nodes(self.left) + 1:
+        if depth(self.right) <= depth(self.left):
             return self
         a = self
         b = self.right
-        c = self.right.left
-        na = a.n_nodes - b.n_nodes + self.nodes(c)
-        nb = b.n_nodes - self.nodes(c) + na
-        b.left = a
+        c = b.left
         a.right = c
-        a.n_nodes = na
-        b.n_nodes = nb
+        b.left = a
+        a.n_nodes = a.implied_nodes()
+        a.n_depth = a.implied_depth()
         return b
+
+    def maybe_rotate_right(self):
+        if depth(self.left) <= depth(self.right):
+            return self
+        a = self
+        b = self.left
+        c = b.right
+        a.left = c
+        b.right = a
+        a.n_nodes = a.implied_nodes()
+        a.n_depth = a.implied_depth()
+        return b
+
+
+    def implied_nodes(self):
+        return nodes(self.left) + nodes(self.right) + 1
+
+    def implied_depth(self):
+        return max(depth(self.left), depth(self.right)) + 1
 
     def labels(self):
         vs = {self.label}
@@ -81,14 +90,6 @@ class SearchTree(object):
             vs |= self.right.labels()
         return vs
 
-    def depth(self):
-        d = 1
-        if self.left != None:
-            d = max(d, 1 + self.left.depth())
-        if self.right != None:
-            d = max(d, 1 + self.right.depth())
-        return d
-
     def check_nodes(self):
         n = 1
         if self.left != None:
@@ -97,6 +98,14 @@ class SearchTree(object):
             n += self.right.check_nodes()
         assert n == self.n_nodes
         return n
+
+    def check_balance(self):
+        if self.left != None:
+            self.left.check_balance()
+        if self.right != None:
+            self.right.check_balance()
+        assert self.n_depth == self.implied_depth()
+        assert abs(depth(self.left) - depth(self.right)) <= 1
 
     def desc(self):
 
@@ -115,38 +124,44 @@ if __name__ == "__main__":
     from random import randrange
 
     def test():
-        # print("building tree")
-        v = randrange(100)
-        # print(v)
+        nr = 50
+        print("building tree")
+        v = randrange(nr)
+        print(v)
         labels = {v}
         t = SearchTree(v, None, None)
-        n = randrange(1000)
-        for _ in range(n):
-            v = randrange(1000)
+        t.check_nodes()
+        n = randrange(nr) + 1
+        while len(labels) < n:
+            v = randrange(nr)
+            if v in labels:
+                continue
             # print(v)
             labels |= {v}
-            t.insert(v)
-        # print("printing tree")
-        # print("n=" + str(n + 1), "depth=" + str(t.depth()))
-        # print(t.desc())
-        # print("checking node counts")
+            t = t.insert(v)
+        print("printing tree")
+        print("n=" + str(n), "depth=" + str(t.n_depth))
+        print(t.desc())
+        print("checking tree size")
+        assert n == nodes(t)
+        print("checking node counts")
         t.check_nodes()
-        # print("checking labels")
+        print("checking labels")
         assert labels == t.labels()
-        # print("checking presence")
+        print("checking presence")
         for l in labels:
             assert t.search(l) != None
-        # print("checking absence")
+        print("checking absence")
         for l in set(range(100)) - t.labels():
             assert t.search(l) == None
-        # print("checking depth")
-        depth_ok = t.depth() <= 2 * log2(t.n_nodes) + 2
-        if not depth_ok:
-            print(log2(t.n_nodes) + 2, t.depth())
-        assert depth_ok
+        print("checking balance")
+        t.check_balance()
         print(".", end="")
+        print("checking depth")
+        assert t.n_depth <= log2(t.n_depth) + 1
+
 
     print("random tests")
-    for _ in range(100):
+    for _ in range(10):
         test()
     print()
