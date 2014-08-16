@@ -32,39 +32,65 @@ class SearchTree(object):
             return self.right.search(v)
         return None
 
+    # Inserts the value v into the search tree and
+    # rebalances. Returns the new root in case of
+    # rebalancing. Requires that the v's inserted
+    # be totally ordered WRT each other.
     def insert(self, v):
+        # We choose not to keep duplicates in the tree.
         if self.label == v:
             return self
+        # Nodes to the left of us are strictly smaller.
         if v < self.label:
             if self.left == None:
+                # Insert at a leaf position.
+                assert depth(self.right) <= 1
                 self.left = SearchTree(v, None, None)
+                t = self
             else:
+                # Insert recursively and adjust.
                 self.left = self.left.insert(v)
-            t = self.maybe_rotate_right()
+                t = self.maybe_rotate_right()
         else:
             if self.right == None:
+                # Insert at a leaf position.
+                assert depth(self.left) <= 1
                 self.right = SearchTree(v, None, None)
+                t = self
             else:
+                # Insert recursively and adjust.
                 self.right = self.right.insert(v)
-            t = self.maybe_rotate_left()
+                t = self.maybe_rotate_left()
+        # 
         t.n_depth = t.implied_depth()
         t.n_nodes = t.implied_nodes()
         return t
 
+    # If the tree is out-of-balance left, rotate it to the
+    # right and return the rotated node. Adjust the
+    # depth/nodes of the new child, but leave the parent to
+    # adjust the depth/nodes of the new parent.
     def maybe_rotate_left(self):
-        if depth(self.right) <= depth(self.left):
+        # Unless the tree is badly out of balance right,
+        # just leave it alone.
+        if depth(self.right) <= depth(self.left) + 1:
             return self
+        # Grab pointers to the three nodes that will
+        # be rotated.
         a = self
         b = self.right
         c = b.left
+        # Perform the rotation.
         a.right = c
         b.left = a
+        # Fix up the nodes/depth.
         a.n_nodes = a.implied_nodes()
         a.n_depth = a.implied_depth()
         return b
 
+    # See comments for maybe_rotate_left() above.
     def maybe_rotate_right(self):
-        if depth(self.left) <= depth(self.right):
+        if depth(self.left) <= depth(self.right) + 1:
             return self
         a = self
         b = self.left
@@ -134,11 +160,9 @@ if __name__ == "__main__":
         n = randrange(nr) + 1
         while len(labels) < n:
             v = randrange(nr)
-            if v in labels:
-                continue
-            # print(v)
             labels |= {v}
             t = t.insert(v)
+        print("printing labels")
         print("printing tree")
         print("n=" + str(n), "depth=" + str(t.n_depth))
         print(t.desc())
@@ -152,13 +176,13 @@ if __name__ == "__main__":
         for l in labels:
             assert t.search(l) != None
         print("checking absence")
-        for l in set(range(100)) - t.labels():
+        for l in set(range(nr)) - labels:
             assert t.search(l) == None
         print("checking balance")
         t.check_balance()
         print(".", end="")
         print("checking depth")
-        assert t.n_depth <= log2(t.n_depth) + 1
+        assert t.n_depth <= log2(n) + 1
 
 
     print("random tests")
