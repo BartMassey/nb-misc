@@ -50,6 +50,8 @@ class SearchTree(object):
             else:
                 # Insert recursively and adjust.
                 self.left = self.left.insert(v)
+                self.n_depth = self.implied_depth()
+                self.n_nodes = self.implied_nodes()
                 t = self.maybe_rotate_right()
         else:
             if self.right == None:
@@ -60,8 +62,9 @@ class SearchTree(object):
             else:
                 # Insert recursively and adjust.
                 self.right = self.right.insert(v)
+                self.n_depth = self.implied_depth()
+                self.n_nodes = self.implied_nodes()
                 t = self.maybe_rotate_left()
-        # 
         t.n_depth = t.implied_depth()
         t.n_nodes = t.implied_nodes()
         return t
@@ -162,6 +165,7 @@ if __name__ == "__main__":
             v = randrange(nr)
             labels |= {v}
             t = t.insert(v)
+            print(t.desc())
         print("printing labels")
         print("printing tree")
         print("n=" + str(n), "depth=" + str(t.n_depth))
