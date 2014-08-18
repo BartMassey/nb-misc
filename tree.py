@@ -134,8 +134,9 @@ class Tree(object):
     def print(self, *args, **kwargs):
         print(self.str(), *args, **kwargs)
 
+
 demo_tree = Tree(1, Tree(2, Tree(4, None, Tree(5))), Tree(3))
-                                                                                                            
+
 if __name__ == "__main__":
     print("testing demo tree")
     assert demo_tree.depth() ==  4
