@@ -4,6 +4,6 @@ class Parent(object):
     def __init__(self):
         pass
 
-class Child(object):
+class Child(Parent):
     def __init__(self):
         pass

@@ -3,7 +3,3 @@
 class Parent(object):
     def __init__(self):
         pass
-
-class Child(object):
-    def __init__(self):
-        pass

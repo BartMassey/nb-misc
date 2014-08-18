@@ -1,9 +1,7 @@
 # Copyright © 2014 Bart Massey
 
-class Parent(object):
-    def __init__(self):
-        pass
+import parent 
 
-class Child(object):
+class Child(parent.Parent):
     def __init__(self):
         pass
