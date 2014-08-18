@@ -53,6 +53,12 @@ class Tree(object):
 
         return self.postorder(op)
 
+    def depth(self):
+        def op(label, left, right):
+            return 1 + max(tree_value(left), tree_value(right))
+
+        return self.postorder(op)
+
     def frontier(self):
         def maybe_traverse(t):
             if t == None:
@@ -112,5 +118,30 @@ class Tree(object):
     def width(self):
         return max(self.widths())
 
+    def str(self):
+
+        def maybe_str(t):
+            if t == None:
+                return "-"
+            return t.str()
+        
+        if self.left == None and self.right == None:
+            return str(self.label)
+        l = maybe_str(self.left)
+        r = maybe_str(self.right)
+        return str(self.label) + "(" + l + "," + r + ")"
+
+    def print(self, *args, **kwargs):
+        print(self.str(), *args, **kwargs)
+
 demo_tree = Tree(1, Tree(2, Tree(4, None, Tree(5))), Tree(3))
                                                                                                             
+if __name__ == "__main__":
+    print("testing demo tree")
+    assert demo_tree.depth() ==  4
+    assert demo_tree.nodes() == 5
+    assert demo_tree.frontier() == [5, 3]
+    assert demo_tree.widths() == [1, 2, 1, 1]
+    assert demo_tree.sum() == 15
+    demo_tree.print(end="")
+    print()
