@@ -155,6 +155,8 @@ class SearchTree(object):
             else:
                 return t.desc()
 
+        if self.left == None and self.right == None:
+            return str(self.label)
         return str(self.label) + \
             "(" + maybe(self.left) + "," + maybe(self.right) + ")"
 
