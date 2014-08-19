@@ -76,7 +76,7 @@ class SearchTree(object):
     def maybe_rotate_left(self):
         # Unless the tree is badly out of balance right,
         # just leave it alone.
-        if depth(self.right) <= depth(self.left) + 1:
+        if depth(self.right) < depth(self.left) + 2:
             return self
         # Grab pointers to the three nodes that will
         # be rotated.
@@ -93,7 +93,7 @@ class SearchTree(object):
 
     # See comments for maybe_rotate_left() above.
     def maybe_rotate_right(self):
-        if depth(self.left) <= depth(self.right) + 1:
+        if depth(self.left) < depth(self.right) + 2:
             return self
         a = self
         b = self.left
