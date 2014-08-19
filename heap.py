@@ -22,16 +22,20 @@ minheap = 0
 maxheap = 1
 
 class Heap(object):
-    def __init__(self, dirn, max_occupancy):
+    def __init__(self, dirn, max_occupancy, compare=None):
         self.n = 0
         self.a = [0] * max_occupancy
         self.dirn = dirn
 
         def leq(x, y):
-            return x <= y
+            if self.compare == None:
+                return x <= y
+            return self.compare(x) <= self.compare(y)
 
         def geq(x, y):
-            return x >= y
+            if self.compare == None:
+                return x >= y
+            return self.compare(x) >= self.compare(y)
 
         if dirn == minheap:
             self.ordered = leq
@@ -39,6 +43,8 @@ class Heap(object):
             self.ordered = geq
         else:
             assert False
+
+        self.compare = compare
 
     def downheap(self, i):
         # Find indices of possible children.
