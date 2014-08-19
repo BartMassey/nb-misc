@@ -136,6 +136,17 @@ class SearchTree(object):
         assert self.n_depth == self.implied_depth()
         assert abs(depth(self.left) - depth(self.right)) <= 1
 
+    def check_depths(self):
+        l = 0
+        if self.left != None:
+            l = self.left.check_depths()
+        r = 0
+        if self.right != None:
+            r = self.right.check_depths()
+        d = 1 + max(l, r)
+        assert self.n_depth == d
+        return d
+
     def desc(self):
 
         def maybe(t):
@@ -182,10 +193,12 @@ if __name__ == "__main__":
         print("checking absence")
         for l in set(range(nr)) - labels:
             assert t.search(l) == None
+        print("checking depths")
+        t.check_depths()
         print("checking balance")
         t.check_balance()
         print(".", end="")
-        print("checking depth")
+        print("checking packing")
         assert t.n_depth <= log2(n) + 1
 
 
