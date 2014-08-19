@@ -152,7 +152,7 @@ class Tree(object):
             if t.right != None:
                 label_indents(t.right)
                 rindent = t.right.indent
-            t.indent = lindent + 2 + rindent // 2
+            t.indent = lindent + 2 + len(str(t.label)) // 2 + rindent // 2
             adjust(t.right, t.indent)
 
         label_indents(self)
@@ -170,10 +170,13 @@ class Tree(object):
             for il in indented_labels(self, d):
                 (indent, label) = il
                 ls = str(label)
-                print(" " * (indent - cur_indent - len(ls) // 2), end="")
+                spaces = indent - cur_indent
+                assert spaces >= 0
+                print(" " * spaces, end="")
                 print(ls, end="")
-                cur_indent += indent
+                cur_indent += spaces + len(ls)
             print()
+
 
 demo_tree = Tree(1, Tree(2, Tree(4, None, Tree(5))), Tree(3))
 
