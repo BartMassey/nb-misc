@@ -160,6 +160,50 @@ class SearchTree(object):
         return str(self.label) + \
             "(" + maybe(self.left) + "," + maybe(self.right) + ")"
 
+    def pretty_print(self):
+        def adjust(t, k):
+            if t == None:
+                return
+            t.indent += k
+            adjust(t.left, k)
+            adjust(t.right, k)
+
+        def label_indents(t):
+            if t == None:
+                return
+            lindent = 0
+            if t.left != None:
+                label_indents(t.left)
+                lindent = t.left.indent
+            rindent = 0
+            if t.right != None:
+                label_indents(t.right)
+                rindent = t.right.indent
+            t.indent = lindent + 2 + len(str(t.label)) // 2 + rindent // 2
+            adjust(t.right, t.indent)
+
+        label_indents(self)
+
+        def indented_labels(t, d):
+            if t == None:
+                return []
+            if d == 1:
+                return [(t.indent, t.label)]
+            return indented_labels(t.left, d - 1) + \
+              indented_labels(t.right, d - 1)
+
+        for d in range(1, self.n_depth + 1):
+            cur_indent = 0
+            for il in indented_labels(self, d):
+                (indent, label) = il
+                ls = str(label)
+                spaces = indent - cur_indent
+                assert spaces >= 0
+                print(" " * spaces, end="")
+                print(ls, end="")
+                cur_indent += spaces + len(ls)
+            print()
+
 if __name__ == "__main__":
 
     from math import log2
@@ -178,11 +222,11 @@ if __name__ == "__main__":
             v = randrange(nr)
             labels |= {v}
             t = t.insert(v)
-            print(t.desc())
+            # print(t.desc())
         print("printing labels")
         print("printing tree")
         print("n=" + str(n), "depth=" + str(t.n_depth))
-        print(t.desc())
+        t.pretty_print()
         print("checking tree size")
         assert n == nodes(t)
         print("checking node counts")
