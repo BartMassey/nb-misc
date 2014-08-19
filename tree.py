@@ -119,7 +119,6 @@ class Tree(object):
         return max(self.widths())
 
     def str(self):
-
         def maybe_str(t):
             if t == None:
                 return "-"
@@ -134,6 +133,47 @@ class Tree(object):
     def print(self, *args, **kwargs):
         print(self.str(), *args, **kwargs)
         
+    def pretty_print(self):
+        def adjust(t, k):
+            if t == None:
+                return
+            t.indent += k
+            adjust(t.left, k)
+            adjust(t.right, k)
+
+        def label_indents(t):
+            if t == None:
+                return
+            lindent = 0
+            if t.left != None:
+                label_indents(t.left)
+                lindent = t.left.indent
+            rindent = 0
+            if t.right != None:
+                label_indents(t.right)
+                rindent = t.right.indent
+            t.indent = lindent + 2 + rindent // 2
+            adjust(t.right, t.indent)
+
+        label_indents(self)
+
+        def indented_labels(t, d):
+            if t == None:
+                return []
+            if d == 1:
+                return [(t.indent, t.label)]
+            return indented_labels(t.left, d - 1) + \
+              indented_labels(t.right, d - 1)
+
+        for d in range(1, self.depth() + 1):
+            cur_indent = 0
+            for il in indented_labels(self, d):
+                (indent, label) = il
+                ls = str(label)
+                print(" " * (indent - cur_indent - len(ls) // 2), end="")
+                print(ls, end="")
+                cur_indent += indent
+            print()
 
 demo_tree = Tree(1, Tree(2, Tree(4, None, Tree(5))), Tree(3))
 
@@ -146,3 +186,4 @@ if __name__ == "__main__":
     assert demo_tree.sum() == 15
     demo_tree.print(end="")
     print()
+    demo_tree.pretty_print()
