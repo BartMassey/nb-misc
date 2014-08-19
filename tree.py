@@ -6,6 +6,28 @@ def tree_value(n):
         return 0
     return n
 
+def zip(left, right):
+    # If one of the lists is empty, there's
+    # nothing to add, so return the other one.
+    if left == []:
+        return right
+    if right == []:
+        return left
+    # Return the sum of the first elements with
+    # the zip of the rest tacked on.
+    return [left[0] + right[0]] + zip(left[1:], right[1:])
+
+def _zip(left, right):
+    # * start with an empty result list
+    result = []
+    # * as long as there's elements on both sides,
+    #   tack their sum onto the result list.
+    common = min(length(left), length(right))
+    for i in range(common):
+        result.append(left[i] + right[i])
+    # * tack on whatever's left over from one of the lists
+    return result + left[common:] + right[common:]
+
 class Tree(object):
     def __init__(self, label, left=None, right=None):
         self.label = label
@@ -83,28 +105,6 @@ class Tree(object):
             return self.left._frontier() + self.right._frontier()
 
     def widths(self):
-        def zip(left, right):
-            # If one of the lists is empty, there's
-            # nothing to add, so return the other one.
-            if left == []:
-                return right
-            if right == []:
-                return left
-            # Return the sum of the first elements with
-            # the zip of the rest tacked on.
-            return [left[0] + right[0]] + zip(left[1:], right[1:])
-
-        def _zip(left, right):
-            # * start with an empty result list
-            result = []
-            # * as long as there's elements on both sides,
-            #   tack their sum onto the result list.
-            common = min(length(left), length(right))
-            for i in range(common):
-                result.append(left[i] + right[i])
-            # * tack on whatever's left over from one of the lists
-            return result + left[common:] + right[common:]
-            
 
         if self.left == None and self.right == None:
             return [1]
@@ -133,7 +133,7 @@ class Tree(object):
 
     def print(self, *args, **kwargs):
         print(self.str(), *args, **kwargs)
-
+        
 
 demo_tree = Tree(1, Tree(2, Tree(4, None, Tree(5))), Tree(3))
 
