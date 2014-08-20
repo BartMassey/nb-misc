@@ -28,13 +28,22 @@ def dijkstra(source, graph, dest=None):
     source.distance = 0
     source.back = None
 
+    class V(object):
+        def __init__(self, vertex, distance, back):
+            self.vertex = vertex
+            self.distance = distance
+            self.back = back
+
     def ordered(v1, v2):
         return v1.distance <= v2.distance
     
     frontier = heap.Heap(heap.minheap, len(graph.edges), compare=ordered)
-    frontier.insert(source)
+    frontier.insert(V(source, 0, None))
     while not frontier.is_empty():
-        target = frontier.extract()
+        target_v = frontier.extract()
+        target = target_v.vertex
+        target.distance = target_v.distance
+        target.back = target_v.back
         if target == dest:
             return
         target.set_mark()
@@ -50,6 +59,4 @@ def dijkstra(source, graph, dest=None):
             if v.is_marked():
                 assert v.distance <= implied_distance
                 continue
-            v.distance = implied_distance
-            v.back = target
-            frontier.insert(v)
+            frontier.insert(V(v, implied_distance, target))
