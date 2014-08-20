@@ -109,6 +109,9 @@ class Heap(object):
         # Reinstate the heap property.
         self.upheap(self.n - 1)
 
+    def is_empty(self):
+        return self.n == 0
+
 
 def heapsort(a):
     # Set up a heap.
