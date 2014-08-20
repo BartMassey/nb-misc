@@ -21,7 +21,7 @@ from graph import *
 #        insert v into the frontier
 
 
-def dijkstra(source, graph):
+def dijkstra(source, graph, dest=None):
     for v in graph.nodes:
         v.clear_mark()
 
@@ -31,10 +31,12 @@ def dijkstra(source, graph):
     def ordered(v1, v2):
         return v1.distance <= v2.distance
     
-    frontier = heap.Heap(heap.minheap, len(graph.nodes), compare=ordered)
+    frontier = heap.Heap(heap.minheap, len(graph.edges), compare=ordered)
     frontier.insert(source)
     while not frontier.is_empty():
         target = frontier.extract()
+        if target == dest:
+            return
         target.set_mark()
         for e in graph.edges:
             if target not in e:
