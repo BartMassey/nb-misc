@@ -1,6 +1,7 @@
 # Copyright © 2014 Bart Massey
 # Dijkstra's Algorithm
 
+from debug import *
 import heap
 from graph import *
 
@@ -47,10 +48,12 @@ def dijkstra(source, graph, dest=None):
     while not frontier.is_empty():
         target_v = frontier.extract()
         target = target_v.vertex
+        if target.is_marked():
+            continue
         target.distance = target_v.distance
         target.back = target_v.back
         target.set_mark()
-        print("dequeue", target.label, target.distance, \
+        debug("dequeue", target.label, target.distance, \
               maybe_label(target.back))
         if target.label == dest:
             return
@@ -64,7 +67,7 @@ def dijkstra(source, graph, dest=None):
             if v.is_marked():
                 assert v.distance <= implied_distance
                 continue
-            print("enqueue", v.label, implied_distance, target.label)
+            debug("enqueue", v.label, implied_distance, target.label)
             frontier.insert(V(v, implied_distance, target))
 
 if __name__ == "__main__":
@@ -87,9 +90,12 @@ if __name__ == "__main__":
         ges |= {xe}
         gws[xe] = es[e]
     g = Graph(gns, ges, gws)
-    dijkstra(vd["Portland"], g, argv[1])
+    dest = None
+    if len(argv) > 2:
+        dest = argv[2]
+    dijkstra(vd[argv[1]], g, dest)
     for v in vs:
-        if v == "Portland":
+        if v == argv[1]:
             continue
         vv = vd[v]
         if not vv.is_marked():
