@@ -11,6 +11,8 @@ from graph import *
 #    insert source into frontier
 #    while frontier is not empty
 #      target <- extract min from frontier
+#      if target is already marked as visited
+#        continue
 #      mark target as visited
 #      for every vertex v connected in graph to the target
 #        implied_distance <- target.distance + edge weight from target to v
@@ -43,12 +45,13 @@ def dijkstra(source, graph, dest=None):
             return v
         return v.label
 
-    frontier = heap.Heap(heap.minheap, len(graph.edges)**2, compare=comparator)
+    frontier = heap.Heap(heap.minheap, len(graph.edges), compare=comparator)
     frontier.insert(V(source, 0, None))
     while not frontier.is_empty():
         target_v = frontier.extract()
         target = target_v.vertex
         if target.is_marked():
+            assert target.distance <= target_v.distance
             continue
         target.distance = target_v.distance
         target.back = target_v.back
