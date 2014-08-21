@@ -37,6 +37,11 @@ def dijkstra(source, graph, dest=None):
     def comparator(v):
         return v.distance
     
+    def maybe_label(v):
+        if not v:
+            return v
+        return v.label
+
     frontier = heap.Heap(heap.minheap, len(graph.edges)**2, compare=comparator)
     frontier.insert(V(source, 0, None))
     while not frontier.is_empty():
@@ -44,9 +49,11 @@ def dijkstra(source, graph, dest=None):
         target = target_v.vertex
         target.distance = target_v.distance
         target.back = target_v.back
-        if target == dest:
-            return
         target.set_mark()
+        print("dequeue", target.label, target.distance, \
+              maybe_label(target.back))
+        if target.label == dest:
+            return
         for edge in graph.edges:
             if target not in edge:
                 continue
@@ -57,9 +64,12 @@ def dijkstra(source, graph, dest=None):
             if v.is_marked():
                 assert v.distance <= implied_distance
                 continue
+            print("enqueue", v.label, implied_distance, target.label)
             frontier.insert(V(v, implied_distance, target))
 
 if __name__ == "__main__":
+    from sys import argv
+
     es = {}
     vs = set()
     for line in open("oregon-mileage-map.txt", "r"):
@@ -77,7 +87,7 @@ if __name__ == "__main__":
         ges |= {xe}
         gws[xe] = es[e]
     g = Graph(gns, ges, gws)
-    dijkstra(vd["Portland"], g)
+    dijkstra(vd["Portland"], g, argv[1])
     for v in vs:
         if v == "Portland":
             continue
