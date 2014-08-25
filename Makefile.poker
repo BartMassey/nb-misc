@@ -1,0 +1,12 @@
+# Copyright © 2014 Bart Massey
+# Makefile for poker
+
+CC = gcc
+CFLAGS = -g -Wall
+
+OBJS = poker.o comb.o
+
+poker: $(OBJS)
+	$(CC) $(CFLAGS) -o poker $(OBJS)
+
+$(OBJS): comb.h
