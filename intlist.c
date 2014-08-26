@@ -43,3 +43,25 @@ void intlist_print(struct intlist *l) {
         l = l->next;
     }
 }
+
+int intlist_extract_min(struct intlist **lpp) {
+    int min;
+    struct intlist *lp;
+    
+    assert(*lpp);
+    min = (*lpp)->value;
+    for (lp = *lpp; lp; lp = lp->next) {
+        if (lp->value < min) {
+            min = lp->value;
+        }
+    }
+    for (; *lpp; lpp = &((*lpp)->next)) {
+        if ((*lpp)->value == min) {
+            struct intlist *next = (*lpp)->next;
+            free(*lpp);
+            *lpp = next;
+            break;
+        }
+    }
+    return min;
+}
