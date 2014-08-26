@@ -1,0 +1,11 @@
+# Copyright © 2014 Bart Massey
+# Makefile for reverse intlist demo.
+
+CC = gcc
+CFLAGS = -g -Wall
+OBJS = reverse.o intlist.o
+
+reverse: $(OBJS)
+	$(CC) $(CFLAGS) -o reverse $(OBJS)
+
+$(OBJS): intlist.h
