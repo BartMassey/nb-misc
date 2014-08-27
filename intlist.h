@@ -7,8 +7,8 @@ struct intlist {
 };
 
 /* intlist.c */
-extern struct intlist *intlist_prepend(int x, struct intlist *l);
-extern struct intlist *intlist_append(int x, struct intlist *l);
-extern void intlist_free(struct intlist *l);
-extern void intlist_print(struct intlist *l);
-extern int intlist_extract_min(struct intlist **lpp);
+extern void intlist_prepend(int x, struct intlist **lp);
+extern void intlist_append(int x, struct intlist **lp);
+extern void intlist_free(struct intlist **lp);
+extern void intlist_print(struct intlist **lp);
+extern int intlist_extract_min(struct intlist **lp);

@@ -6,62 +6,58 @@
 #include <stdlib.h>
 #include "intlist.h"
 
-struct intlist *intlist_prepend(int x, struct intlist *l) {
+void intlist_prepend(int x, struct intlist **lp) {
     struct intlist *xl = malloc(sizeof *xl);
     assert(xl);
     xl->value = x;
-    xl->next = l;
-    return xl;
+    xl->next = *lp;
+    *lp = xl;
 }
 
-struct intlist *intlist_append(int x, struct intlist *l) {
-    struct intlist *lp;
+void intlist_append(int x, struct intlist **lp) {
     struct intlist *xl = malloc(sizeof *xl);
     assert(xl);
     xl->value = x;
     xl->next = 0;
-    if (!l)
-        return xl;
-    lp = l;
-    while (lp->next)
-        lp = lp->next;
-    lp->next = xl;
-    return l;
+    while (*lp)
+        lp = &((*lp)->next);
+    *lp = xl;
 }
 
-void intlist_free(struct intlist *l) {
-    while (l) {
-        struct intlist *lp = l->next;
-        free(l);
-        l = lp;
+void intlist_free(struct intlist **lp) {
+    while (*lp) {
+        struct intlist **saved_lp = &(*lp)->next;
+        free(*lp);
+        lp = saved_lp;
+    }
+    /* XXX Just for "safety". */
+    *lp = 0;
+}
+
+void intlist_print(struct intlist **lp) {
+    for(; *lp; lp = &((*lp)->next)) {
+        printf("%d\n", (*lp)->value);
     }
 }
 
-void intlist_print(struct intlist *l) {
-    while (l) {
-        printf("%d\n", l->value);
-        l = l->next;
-    }
-}
-
-int intlist_extract_min(struct intlist **lpp) {
+int intlist_extract_min(struct intlist **lp) {
     int min;
-    struct intlist *lp;
+    struct intlist *l;
     
-    assert(*lpp);
-    min = (*lpp)->value;
-    for (lp = *lpp; lp; lp = lp->next) {
-        if (lp->value < min) {
-            min = lp->value;
+    assert(*lp);
+    min = (*lp)->value;
+    for (l = *lp; l; l = l->next) {
+        if (l->value < min) {
+            min = l->value;
         }
     }
-    for (; *lpp; lpp = &((*lpp)->next)) {
-        if ((*lpp)->value == min) {
-            struct intlist *next = (*lpp)->next;
-            free(*lpp);
-            *lpp = next;
-            break;
+    for (; *lp; lp = &((*lp)->next)) {
+        if ((*lp)->value == min) {
+            struct intlist *saved_l = (*lp)->next;
+            free(*lp);
+            *lp = saved_l;
+            return min;
         }
     }
-    return min;
+    assert(0);
 }
