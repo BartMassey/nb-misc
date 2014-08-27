@@ -1,0 +1,14 @@
+# Copyright © 2014 Bart Massey
+# Makefile for reverse intlist demo.
+
+CC = gcc
+CFLAGS = -g -Wall
+OBJS = intlist_bench.o intlist.o
+
+intlist_bench: $(OBJS)
+	$(CC) $(CFLAGS) -o intlist_bench $(OBJS)
+
+$(OBJS): intlist.h
+
+clean:
+	-rm -rf $(OBJS) intlist_bench
