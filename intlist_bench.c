@@ -33,6 +33,7 @@ int main(int argc, char **argv) {
         assert(m >= min);
         min = m;
     }
+    assert(l == 0);
 
     return 0;
 }
