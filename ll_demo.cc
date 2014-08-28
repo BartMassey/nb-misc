@@ -1,11 +1,11 @@
 /* Copyright © 2014 Bart Massey */
-/* intlist demo */
+/* Linked list demo. */
 
 #include <stdio.h>
 extern "C" {
 #include "intlist.h"
 }
-#include "int_list.h"
+#include "ll.h"
 
 class int_list_adapter {
     struct intlist *head;
@@ -36,11 +36,15 @@ public:
     }
 };
 
+void print(int v) {
+    printf("%d\n", v);
+}
+
 int main(void) {
-    int_list l;
+    ll<int> l;
     for (int i = 0; i < 10; i++)
         l.prepend(i);
-    l.print();
+    l.traverse(print);
 
     printf("\n");
 

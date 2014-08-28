@@ -1,0 +1,23 @@
+# Copyright © 2014 Bart Massey
+# Makefile for C++ linked list demo.
+
+CPP = g++
+CC = gcc
+CFLAGS = -g -Wall
+CPPFLAGS = $(CFLAGS)
+
+OBJS = ll_demo.o intlist.o
+
+ll_demo: $(OBJS)
+	$(CPP) $(CPPFLAGS) -o ll_demo $(OBJS)
+
+ll_demo.o: intlist.h ll.h ll_node.h
+
+intlist.o: intlist.h
+
+ll.o: ll.h
+
+ll_node.o: ll_node.h
+
+clean:
+	-rm -f $(OBJS) ll_demo
