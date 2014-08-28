@@ -4,11 +4,13 @@
 #include <stdio.h>
 #include "ll_node.h"
 
-ll_node :: ll_node(class ll_elem *value, ll_node *next) {
+template <class elem_t>
+ll_node<elem_t> :: ll_node(elem_t *value, ll_node *next) {
     this->value = value;
     this->next = next;
 }
 
-void ll_node :: print(void) {
+template <class elem_t>
+void ll_node<elem_t> :: print(void) {
     this->value->print();
 }
