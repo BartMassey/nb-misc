@@ -25,8 +25,8 @@ def animation_move_right(figure):
 def animation_move_left(figure):
     display_animation(figure, range(width - len(figure), -1, -1))
 
-animation_move_right("->")
-animation_move_left("<-")
-animation_move_right("=>")
-animation_move_left("<=")
+for figs in [("->", "<-"), ("=>", "<=")]:
+    animation_move_right(figs[0])
+    animation_move_left(figs[1])
+
 print()
